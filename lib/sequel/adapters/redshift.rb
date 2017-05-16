@@ -17,6 +17,10 @@ module Sequel
         # redshift doesn't support serial type
         super.merge(serial: false)
       end
+
+      def supports_prepared_transactions?
+        false
+      end
     end
 
     class Dataset < Postgres::Dataset
@@ -26,6 +30,11 @@ module Sequel
       def insert_returning_sql(sql)
         # do nothing here
         sql
+      end
+
+      # Returning is NOT supported.
+      def supports_returning?(type)
+        false
       end
     end
   end
